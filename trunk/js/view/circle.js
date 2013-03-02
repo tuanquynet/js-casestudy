@@ -15,29 +15,43 @@ cs.com.Circle = cs.com.Circle || function() {
 		el = $(html);
 
 		el.css({
-			width: this.prop.width + 'px',
-	    	height: this.prop.width + 'px',
-	    	"-webkit-border-radius": (this.prop.width/2) + 'px',
-	    	"-moz-border-radius": (this.prop.width/2) + 'px',
-	    	"border-radius": (this.prop.width/2) + 'px',
-	    	"background-color": this.prop.background_color
+			top: this.props.top + 'px',
+	    	left: this.props.left + 'px',
+			width: this.props.width + 'px',
+	    	height: this.props.width + 'px',
+	    	"-webkit-border-radius": (this.props.width/2) + 'px',
+	    	"-moz-border-radius": (this.props.width/2) + 'px',
+	    	"border-radius": (this.props.width/2) + 'px',
+	    	"background-color": this.props.background_color
 	    });
 
-	    centerPoint.y = centerPoint.x = this.prop.width * registrationPoint.xPer;	    
+	    centerPoint.y = centerPoint.x = this.props.width * registrationPoint.xPer;	    
 	}
 
 	this.attachTo = function(parent) {
 		$(el).appendTo(parent);
 	}
 
-	this.moveTo = function(pos) {
-		var _pos = pos;
-		$.extend(this.prop, pos);
+	this.invalidate = function(props) {
+		var _pos = {};
+		this.props = $.extend(this.props, props);
 
-		_pos.left = this.prop.left - centerPoint.x;
-		_pos.top = this.prop.top - centerPoint.y;
+		if (props.top || props.left) {
+			this.moveTo(this.props);
+		}
 		
+		if (props.width || props.height) {
+			this.resize(this.props);
+		}
+	}
 
+	this.moveTo = function(pos) {
+		var _pos = {};
+		this.props = $.extend(this.props, pos);
+
+		_pos.left = this.props.left - centerPoint.x;
+		_pos.top = this.props.top - centerPoint.y;
+				
 		el.css({
 			'left': _pos.left + 'px',
 			'top': _pos.top + 'px'
@@ -45,9 +59,16 @@ cs.com.Circle = cs.com.Circle || function() {
 	}
 
 	this.resize = function(size) {
-		this.prop.width = size.width;
-		this.prop.height = size.height;
-		centerPoint.y = centerPoint.x = this.prop.width * registrationPoint.xPer;
+		this.props.height = this.props.width = size.width;
+		
+		centerPoint.y = centerPoint.x = this.props.width * registrationPoint.xPer;
+		el.css({
+			width: this.props.width + 'px',
+			height: this.props.width + 'px',
+			"-webkit-border-radius": (this.props.width/2) + 'px',
+	    	"-moz-border-radius": (this.props.width/2) + 'px',
+	    	"border-radius": (this.props.width/2) + 'px',
+		});
 	}
 
 	this.getElement = function () {
@@ -55,13 +76,18 @@ cs.com.Circle = cs.com.Circle || function() {
 	}
 
 	this.position = function() {
-		return {left: this.pros.left, top: this.pros.left};
+		return {left: this.props.left, top: this.props.top};
+	}
+
+	this.size = function() {
+		return {width: this.props.width, height: this.props.height};
 	}
 
 	this.css = function(stylesheet) {
-		$.extend(this.pros, stylesheet);
-		if (stylesheet.left || stylesheet.top) {
-			this.moveTo(left:stylesheet.left, top: stylesheet.top);
+
+		$.extend(this.props, stylesheet);
+		if (stylesheet.left && stylesheet.top) {
+			this.moveTo({left: stylesheet.left, top: stylesheet.top});
 		}
 	}
 }

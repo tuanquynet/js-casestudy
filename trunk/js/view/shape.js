@@ -8,11 +8,11 @@ cs.com.Shape = cs.com.Shape || function() {
 		background_color: '#FFFFFF'
 	};
 	
-	this.prop = jQuery.extend({}, this.defaults);
+	this.props = Object.create(this.defaults);
 }
 
 cs.com.Shape.prototype.init = function(settings) {
-	this.prop = jQuery.extend(this.prop, settings);
+	this.props = jQuery.extend(this.props, settings);
 }
 
 cs.com.Shape.prototype.draw = function() {

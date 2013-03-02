@@ -20,6 +20,8 @@ var app = app || (function(){
 		})
 		for (var i = num - 1; i >= 0; i--) {
 			var circle = new cs.com.Circle();
+			settings.width = container.width() * .1;
+			settings.height = container.height() * .1;
 			circle.init(settings);
 			circle.draw();
 			circle.attachTo(container);
@@ -34,6 +36,17 @@ var app = app || (function(){
 		//create
 		createChildren();
 		cs.com.Animator.init();
+
+		$(window).bind('resize', function() {
+			var container = $('#container');
+			container.css({
+				width: $(window).width(),
+				height: $(window).height(),
+				position: 'absolute',
+				left: '0px',
+				top: '0px'
+			})
+		});
 	}
 
 	return {
