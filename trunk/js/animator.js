@@ -224,7 +224,7 @@ cs.com.Animator = cs.com.Animator || (function() {
 		$(elements).each(function(index){
 			if (index == 0) return;
 			
-			$(elements[index].getElement()).unbind('mouseover').bind('mouseover', function(){
+			$(elements[index].getElement()).unbind('mouseover touch').bind('mouseover touch', function(){
 				
 				var el = elements[index];
 				el.snapToEdge = true;

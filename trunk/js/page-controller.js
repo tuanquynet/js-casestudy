@@ -37,7 +37,7 @@ var app = app || (function(){
 		createChildren();
 		cs.com.Animator.init();
 
-		$(window).bind('resize', function() {
+		$(window).bind('resize orientationchange', function() {
 			var container = $('#container');
 			container.css({
 				width: $(window).width(),
