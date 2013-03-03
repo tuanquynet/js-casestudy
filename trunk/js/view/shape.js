@@ -8,7 +8,7 @@ cs.com.Shape = cs.com.Shape || function() {
 		background_color: '#FFFFFF'
 	};
 	
-	this.props = Object.create(this.defaults);
+	this.props = jQuery.extend({}, this.defaults);
 }
 
 cs.com.Shape.prototype.init = function(settings) {

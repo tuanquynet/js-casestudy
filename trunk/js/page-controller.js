@@ -46,7 +46,9 @@ var app = app || (function(){
 				left: '0px',
 				top: '0px'
 			})
+			cs.com.Animator.resize();
 		});
+
 	}
 
 	return {
@@ -56,10 +58,5 @@ var app = app || (function(){
 
 
 jQuery(document).ready(function(){
-	
-	//init animator
-
-	//create 5 circles
 	app.start();
-
 })

@@ -1,12 +1,17 @@
 ;Utils.ns('cs.com');
-cs.com.Animator = cs.com.Animator || (function() {
 
-	var inited = false;
-	var elements;
-	var container;
-	var step = 0;
-	var sequence = ['step1', 'step2', 'step3'];
-	var speed = 0.05;
+cs.com.Animator = cs.com.Animator || (function() {
+	var ns = cs.com;
+	var inited = false,
+		elements,
+		container,
+		step = 0,
+		sequence = ['step1', 'step2', 'step3'],
+		speed = 0.05,
+		state = ns.AnimatorState.PAUSE,
+		endPoints = [],
+		endSize = [],
+		maxRatio = 0.1;
 
 	// shim layer with setTimeout fallback
 	window.requestAnimFrame = (function(){
@@ -16,12 +21,11 @@ cs.com.Animator = cs.com.Animator || (function() {
 	          window.oRequestAnimationFrame      ||
 	          window.msRequestAnimationFrame     ||
 	          function( callback ){
-	            window.setTimeout(callback, 1000 / 60);//60
+	            window.setTimeout(callback, 1000 / 60);
 	          };
 	})();
 
-	var render = function() {
-		//console.log('render');
+	var render = function() {		
 		//fade in at center
 		var centerP = {},
 			startP = {left:0, top:0}, 
@@ -29,68 +33,115 @@ cs.com.Animator = cs.com.Animator || (function() {
 			pos = {},
 			props = {},
 			startS,
-			endS;
+			endS,
+			el;
 		var count = 0;
-		centerP.left = container.width()/2;
-		centerP.top = container.height()/2;
+		
 
-		endS = {width: container.width()*.1, height: container.height()*.1};
+		endS = endSize[0];
 
-		startP =  elements[0].position();
-		endP = $.extend(endP, centerP);
-		startS = elements[0].size();
+		el = elements[0];
+		startP =  el.position();
+		endP = endPoints[0];
+		startS = el.size();
 		props = timingFunction(startP, endP, startS, endS);
-		elements[0].invalidate(props);
-		if (Math.abs(startP.left - endP.left) < 0.01 && Math.abs(startP.top - endP.top) < 0.01) {
+		el.invalidate(props);
+		var threshold = 0.1;
+		if (Math.abs(startP.left - endP.left) < threshold && Math.abs(startP.top - endP.top) < threshold) {
 			count++;
 		}
 
 		//Move element 1 to top
-		startP =  elements[1].position();
-		endP = $.extend(endP,centerP);
-		endP.top = 0;
-		startS = elements[0].size();
+		el = elements[1];
+		startP =  el.position();
+		endP = endPoints[1];		
+		startS = el.size();
 		props = timingFunction(startP, endP, startS, endS);
-		elements[1].invalidate(props);
+		el.invalidate(props);
+		if (Math.abs(startP.left - endP.left) < threshold && Math.abs(startP.top - endP.top) < threshold) {
+			count++;
+		}
+
+		el = elements[2];
+		startP =  el.position();
+		endP = endPoints[2];
+		startS = el.size();
+		props = timingFunction(startP, endP, startS, endS);
+		el.invalidate(props);
+		if (Math.abs(startP.left - endP.left) < threshold && Math.abs(startP.top - endP.top) < threshold) {
+			count++;
+		}
+
+		el = elements[3];
+		startP =  el.position();
+		endP = endPoints[3];
+		startS = el.size();		
+		props = timingFunction(startP, endP, startS, endS);
+		el.invalidate(props);
 		if (Math.abs(startP.left - endP.left) < 0.01 && Math.abs(startP.top - endP.top) < 0.01) {
 			count++;
 		}
 
-		startP =  elements[2].position();
-		endP = $.extend(endP, centerP);
-		endP.top = centerP.top*2;
-		startS = elements[0].size();
+		el = elements[4];
+		startP =  el.position();
+		endP = endPoints[4];
+		startS = el.size();
 		props = timingFunction(startP, endP, startS, endS);
-		elements[2].invalidate(props);
-		if (Math.abs(startP.left - endP.left) < 0.01 && Math.abs(startP.top - endP.top) < 0.01) {
-			count++;
-		}
-
-		startP =  elements[3].position();
-		endP = $.extend(endP, centerP);
-		endP.left = 0;
-		startS = elements[0].size();		
-		props = timingFunction(startP, endP, startS, endS);
-		elements[3].invalidate(props);
-		if (Math.abs(startP.left - endP.left) < 0.01 && Math.abs(startP.top - endP.top) < 0.01) {
-			count++;
-		}
-
-		startP =  elements[4].position();
-		endP = $.extend(endP, centerP);
-		endP.left = centerP.left*2;
-		startS = elements[0].size();
-		props = timingFunction(startP, endP, startS, endS);
-		elements[4].invalidate(props);
+		el.invalidate(props);
 		if (Math.abs(startP.left - endP.left) < 0.01 && Math.abs(startP.top - endP.top) < 0.01) {
 			count++;
 		}
 
 		if (count === 5 && step == 1) {
 			step = 2;
+			//state = ns.AnimatorState.PAUSE;
+			nextStep();
 		}
 	}
 
+	var calculatEndPoint = function() {
+		var el;
+
+		for (var i = 0; i < elements.length; i++) {
+			el = elements[i];
+			endPoints[i] = getCornerPos(el.snapedPoint);
+			endSize[i] = {width: container.width()*maxRatio, height: container.height()*maxRatio};
+		}
+		
+	}
+
+	var getCornerPos = function(cornerPos) {
+		switch (cornerPos) {
+			case ns.CornerEnum.TL:
+				return {left: 0, top: 0};
+				break;
+			case ns.CornerEnum.TM:
+				return {left: container.width()/2, top: 0};
+				break;
+			case  ns.CornerEnum.TR:
+				return {left: container.width(), top: 0};
+				break;
+			case ns.CornerEnum.ML:
+				return {left: 0, top: container.height()/2};
+				break;
+			case  ns.CornerEnum.MM:
+				return {left: container.width()/2, top: container.height()/2};
+				break;
+			case ns.CornerEnum.MR:
+				return {left: container.width(), top: container.height()/2};
+				break;
+			case  ns.CornerEnum.BL:
+				return {left: 0, top: container.height()};
+				break;
+			case  ns.CornerEnum.BM:
+				return {left: container.width()/2, top: container.height()};
+				break;
+			case  ns.CornerEnum.BR:
+				return {left: container.width(), top: container.height()};
+				break;
+		}
+
+	}
 	var timingFunction = function(startP, endP, startSize, endSize) {
 		var props = {};
 		if (startP && endP) {
@@ -117,7 +168,11 @@ cs.com.Animator = cs.com.Animator || (function() {
 		pos.top = container.height()/2;
 
 		//circles = $('.circle', container);
+		var initEndPoint = [ns.CornerEnum.MM, ns.CornerEnum.TM, ns.CornerEnum.BM, ns.CornerEnum.ML, ns.CornerEnum.MR];
 		$(elements).each(function(index) {
+			
+			el = elements[index];
+			el.snapedPoint = initEndPoint[index];
 			this.moveTo(pos);
 			jQuery(this.getElement()).css('opacity', 0);
 			jQuery(this.getElement()).animate({
@@ -128,32 +183,73 @@ cs.com.Animator = cs.com.Animator || (function() {
 				nextStep();
 			});
 		});
+		calculatEndPoint();
+
+		//bind resize
+
 	}
 
 	var enterframe = function() {
-		requestAnimFrame(enterframe);
-		render();
+		if (state == ns.AnimatorState.PLAYING) {
+			requestAnimFrame(enterframe);
+			render();
+		}
 	}
 
 	var nextStep = function() {
 		switch(sequence[step]) {
 			case 'step2':
+				state = ns.AnimatorState.PLAYING;
 				enterframe();
 				break;
 			case 'step3':
+				state = ns.AnimatorState.PLAYING;
+				enableInteraction();
+				enterframe();
 				break;
 		}
 	}	
 
 	var pause = function() {
-
+		state = ns.AnimatorState.PAUSE;
 	}
 
 	var resume = function() {
-
+		state = ns.AnimatorState.PLAYING;
+		enterframe();
 	}
 
+	var enableInteraction = function() {
 
+		$(elements).each(function(index){
+			if (index == 0) return;
+			
+			$(elements[index].getElement()).unbind('mouseover').bind('mouseover', function(){
+				
+				var el = elements[index];
+				el.snapToEdge = true;
+				switch (index) {
+					case 0:
+						el.snapedPoint = ns.CornerEnum.MID;
+						break;
+					case 1:
+						el.snapedPoint = (el.snapedPoint == ns.CornerEnum.TR) ? ns.CornerEnum.TL : ns.CornerEnum.TR;
+						break;
+					case 2:
+						el.snapedPoint = (el.snapedPoint == ns.CornerEnum.BL) ? ns.CornerEnum.BR : ns.CornerEnum.BL;
+						break;
+					case 3:
+						el.snapedPoint = (el.snapedPoint == ns.CornerEnum.TL) ? ns.CornerEnum.BL : ns.CornerEnum.TL;
+						break;
+					case 4:
+						el.snapedPoint = (el.snapedPoint == ns.CornerEnum.BR) ? ns.CornerEnum.TR : ns.CornerEnum.BR;
+						break;
+				}
+				calculatEndPoint();
+			});
+		});
+		//$(elements).unbind('mouseover').bind('mouseover', function(){});
+	}
 	return {
 		init: init,
 		pause: pause,
@@ -163,8 +259,12 @@ cs.com.Animator = cs.com.Animator || (function() {
 		},
 		setContainer: function(obj) {
 			container = obj;
+		},
+		resize: function() {			
+			calculatEndPoint();
 		}
 	}
 })();
 
 Utils.extend(cs.com.Animator, Utils.Event.ObserverMixin);
+

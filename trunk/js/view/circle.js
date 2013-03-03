@@ -9,7 +9,9 @@ cs.com.Circle = cs.com.Circle || function() {
 	var registrationPoint = {xPer:0.5, yPer:0.5};
 	var centerPoint = {x: 0, y: 0};
 
-
+	this.snapToEdge = false;
+	this.snapedPoint = '';
+	
 	this.draw = function() {
 		var html = '<div class="circle" style=""></div>';
 		el = $(html);
@@ -90,6 +92,8 @@ cs.com.Circle = cs.com.Circle || function() {
 			this.moveTo({left: stylesheet.left, top: stylesheet.top});
 		}
 	}
+
+
 }
 
 Utils.extend(cs.com.Circle, cs.com.Shape);
