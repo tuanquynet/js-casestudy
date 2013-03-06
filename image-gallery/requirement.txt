@@ -1,0 +1,33 @@
+Create a responsive image gallery based on the screenshots attached.
+
+ 
+
+Requirements:
+
+Browser: IE 7/8, IE9, IE10, Chrome, Firefox, Safari
+
+Devices: iPhone & iPad
+
+ 
+
+Please take a note that list view should behave responsive and as follows on different resolutions:
+
+ 
+
+1024: 2 Columns and center aligned
+
+ 
+
+Between 1024 & 1280: 3 columns and center aligned
+
+ 
+
+Bigger than 1280: 4 columns and center aligned
+
+ 
+
+iPad: 2 Columns and center aligned
+
+ 
+
+iPhone: 1 Columns and center aligned
