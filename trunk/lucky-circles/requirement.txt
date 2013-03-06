@@ -1,0 +1,35 @@
+Targeted Platforms:
+
+1- iPhone
+
+2- iPad
+
+3- Android
+
+4- Desktop Chrome
+
+5- Desktop Safari
+
+ 
+
+Requirements:
+
+Manage you code through Single Tone design pattern.
+
+ 
+
+Output:
+
+Display 5 circles at the screen, fading in at center and then 4 of them nicely slides towards the four edges of the screen. Center of all of the four circles should be aligned with the edges of the screen.
+
+ 
+
+Size of each circle should be 10% of the screen width.
+
+ 
+
+When user rollover each of the four circles, it should jump to the opposite corner of the screen along height.
+
+ 
+
+Note: Changing the orientation of the screen or resizing the browser should readjust the positions of circles as per new dimensions with a nice animation.
