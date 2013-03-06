@@ -1,0 +1,3 @@
+Views:
+  - render based dynamic data defined in JSON
+  - reposition based on browser screen width using responsive approach

@@ -1,0 +1,39 @@
+﻿{
+	"status": "success",
+	"albumId" : 10,
+	"data":
+		{
+		"Id": "3854288562254",
+		"OriginalUrl": "http://www.nice.org.uk/media/326/AA/apples.jpg",
+		"UserId": 10,
+		"UserAvatarUrl": "../data/user-data/photo_detail_lightbox.jpg",
+		"UserNane": "Joe Doe",
+		"AlbumName": "My surf trips",
+		"AlbumUrl": "#AlbumUrl",
+		"ProfileUrl":"http://zing.vn",
+		"NumberHug":0,
+		"NumberShare" : 0,
+		"NumberFollow":20,
+		"IsHug":false,
+		"AllowHug":false,
+		"AllowShare":false,
+		"AllowFollow":true,
+		"IsFollow":false,		
+		"FacebookUrl":"http://facebook.com",
+		"PinterestUrl":"http://pinterest.com",
+    	"TwitterUrl":"http://twitter.com",
+		"NumberFacebook":0,
+    	"NumberPinterest":0,
+    	"NumberTwitter":0,
+    	"IsBelongToAlbum":false,
+    	"CurrentIndex": 0,
+    	"PreviousId":1,
+    	"NextId": 3,
+    	"DetailUrl": "#",
+    	"Caption": "caption text",
+    	"AllowComment" : true,
+		"Caption" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat elementum leo id dapis. ng elit. Vestibululeo Cras amet.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibululeo id dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+		}
+	
+}
+
