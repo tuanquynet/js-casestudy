@@ -6,11 +6,43 @@ body {
 	height: 100%
 }
 
-#container {
-	position: relative;
-	overflow: hidden;
+#page {
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; 
 }
 
-.circle {
-	position: absolute;
+.hidden {
+	display: none;
+}
+
+#container {
+	width: 1280px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.clear, .clear-line {
+	clear: both;
+}
+.clear-line {
+	height: 0px;
+}
+
+@media only screen and (max-width: 1280px) {
+	#container {
+		width: 960px;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	#container {
+		width: 640px;
+	}
+}
+
+@media only screen and (max-width: 640px) {
+	#container {
+		width: 320px;
+	}
 }
