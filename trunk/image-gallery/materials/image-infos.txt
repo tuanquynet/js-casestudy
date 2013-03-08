@@ -1,0 +1,3 @@
+- vertical red bar: 10px width
+- width: 1349
+- cell: 337x252
