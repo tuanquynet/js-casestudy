@@ -1,0 +1,9 @@
+Technique notes:
+	+ Can not calculate width or height of a container if child elements is float & positioned absolute.
+	+ How to apply OOCSS: how to separate content & style?
+	+ Formular to calculate the width & height of a container if the children is positioned absolute & relative.
+	+ on IE7, we horizontal center element with auto margin if container set width.
+
+Test case:
+	+ Element is absolute & parent is absolute also.
+	+ Determine container's width & height when element is absolute.
